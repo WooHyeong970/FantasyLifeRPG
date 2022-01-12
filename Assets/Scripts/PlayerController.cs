@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        GameManager.Camera.OnUpdate();
     }
 
     public void HandleInput()
@@ -41,11 +40,24 @@ public class PlayerController : MonoBehaviour
 
         Vector3 moveDir = Vector3.zero;
 
+        SpriteRenderer spriteRenderer = this.GetComponent<SpriteRenderer>();
+
         if(Mathf.Abs(h) > Mathf.Abs(v))
+        {
             moveDir = new Vector3(h, 0.0f, 0.0f);
+            if(h > 0)
+                spriteRenderer.sprite = GameManager.Resource.Instantiate("playerRight");
+            else
+                spriteRenderer.sprite = GameManager.Resource.Instantiate("playerLeft");
+        }
         else
+        {
             moveDir = new Vector3(0.0f, v, 0.0f);
-        
+            if(v > 0)
+                spriteRenderer.sprite = GameManager.Resource.Instantiate("playerBack");
+            else
+                spriteRenderer.sprite = GameManager.Resource.Instantiate("playerFront");    
+        }
         return moveDir.normalized;
     }
 

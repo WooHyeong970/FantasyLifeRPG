@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,24 +8,46 @@ public class LevelWindow : MonoBehaviour
 {
     [SerializeField]
     private Text levelText;
+    [SerializeField]
     private Image experienceBarImage;
+    private LevelSystem levelSystem;
 
-    private void Awake()
-    {
-        //levelText = transform.Find("Level_txt").GetComponent<Text>();
-        experienceBarImage = transform.Find("ExpBar_img").GetComponent<Image>();
-
-        SetExperienceBarSize(0.5f);
-        SetLevelNumber(7);
-    }
+    [SerializeField]
+    private Button getExp;
 
     private void SetExperienceBarSize(float experienceNormalized)
     {
         experienceBarImage.fillAmount = experienceNormalized;
     }
 
+    private void Awake()
+    {
+        
+    }
+
     private void SetLevelNumber(int levelNumber)
     {
         levelText.text = "LEVEL " + levelNumber;
+    }
+
+    public void SetLevelSystem(LevelSystem levelSystem)
+    {
+        this.levelSystem = levelSystem;
+
+        SetLevelNumber(levelSystem.GetLevelNumber());
+        SetExperienceBarSize(levelSystem.GetExperienceNormalized());
+
+        levelSystem.OnExperienceChanged += LevelSystem_OnExperienceChanged;
+        levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
+    }
+
+    private void LevelSystem_OnExperienceChanged(object sender, EventArgs e)
+    {
+        SetLevelNumber(levelSystem.GetLevelNumber());
+    }
+
+    private void LevelSystem_OnLevelChanged(object sender, EventArgs e)
+    {
+        SetExperienceBarSize(levelSystem.GetExperienceNormalized());
     }
 }

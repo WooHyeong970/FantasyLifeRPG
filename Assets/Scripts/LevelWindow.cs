@@ -22,7 +22,8 @@ public class LevelWindow : MonoBehaviour
 
     private void Awake()
     {
-        
+        getExp.GetComponent<Button>().onClick.AddListener(() => levelSystem.AddExperience(15));
+        getExp.GetComponent<Button>().onClick.AddListener(() => SetLevelSystem(levelSystem));
     }
 
     private void SetLevelNumber(int levelNumber)

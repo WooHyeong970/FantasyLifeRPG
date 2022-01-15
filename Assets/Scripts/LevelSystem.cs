@@ -23,7 +23,7 @@ public class LevelSystem
     {
         experience += amount;
 
-        if(experience >= experienceToNextLevel)
+        while(experience >= experienceToNextLevel)
         {
             level++;
             experience -= experienceToNextLevel;
